@@ -32,5 +32,11 @@ class QuotesSpider(scrapy.Spider):
         self.log('Saved file %s' % filename)
 
     def extractCourse(self, response):
-        print response.url
+
+        catalogNotes = response.xpath("//ul[@class='catalog-notes']/li/p")
+        # print catalogNotes.extract_first()
+        for note in catalogNotes:
+            if 'Prerequisite' in note.extract():
+                for n in note.xpath("a"):
+                    print n.extract()
         print '\n'
