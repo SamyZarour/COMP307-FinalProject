@@ -1,4 +1,6 @@
 import scrapy
+import re
+from scrapy.http import HtmlResponse
 
 
 class QuotesSpider(scrapy.Spider):
@@ -33,10 +35,30 @@ class QuotesSpider(scrapy.Spider):
 
     def extractCourse(self, response):
 
+        # Get course name
+        course_name = response.url.split("/")[-1]
+
         catalogNotes = response.xpath("//ul[@class='catalog-notes']/li/p")
         # print catalogNotes.extract_first()
         for note in catalogNotes:
             if 'Prerequisite' in note.extract():
-                for n in note.xpath("a"):
-                    print n.extract()
-        print '\n'
+                print "\n%s :\n" % course_name
+                self.parsePrereqs(note.extract())
+                # for n in note.xpath("a"):
+                #     print n.extract()
+                print '\n'
+
+    def parsePrereqs(self, prereqs):
+
+        result = []
+        i = 0
+
+        for a in prereqs.split('and'):
+            result.append([])
+            for o in a.split('or'):
+                hrefFinder = re.compile(r"href=\"[A-Za-z0-9_/-]+\">([A-Za-z0-9_ ]+)<")
+                print str(hrefFinder.findall(o))
+                # for c in HtmlResponse(url="my HTML string", body=str(o)).xpath('a'):
+                #     print c.extract()
+                #     print '\n'
+            i += 1
