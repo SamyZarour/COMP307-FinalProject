@@ -1,8 +1,10 @@
-import scrapy, re, os
+import scrapy, re, os, json
 from scrapy.http import HtmlResponse
 
-
 class QuotesSpider(scrapy.Spider):
+
+    courses_json = {}
+    majors_json = {}
 
     name = "courses"
     filename = "courses.html"
@@ -18,6 +20,12 @@ class QuotesSpider(scrapy.Spider):
         ]
         for url in urls:
             yield scrapy.Request(url=url, callback=self.parse)
+
+        with open('courses.json', 'w') as outfile:
+            json.dump(self.courses_json, outfile)
+
+        with open('majors.json', 'w') as outfile:
+            json.dump(self.majors_json, outfile)
 
     def parse(self, response):
         filename = 'courses.html'
@@ -39,17 +47,43 @@ class QuotesSpider(scrapy.Spider):
         self.log('Saved file %s' % filename)
 
     def extractCourse(self, response):
-
+        item = {}
         # Get course name
-        course_name = response.url.split("/")[-1]
+        item["subj"], item["code"] = response.url.split("/")[-1].split("-")
+        item["cid"] = "%s %s" % (item["subj"], item["code"])
+        item['title'] = (((response.xpath('//div[@id="inner-container"]/h1/text()').extract_first()).strip( '\n' )[17:-17]).rstrip(' ')).encode('utf-8')
+        try:
+            item['credits'] = (re.search(r'.*?\((\d)', response.xpath('//div[@id="inner-container"]/h1/text()').extract_first().strip( '\n' )).group(1)).encode('utf-8')
+        except:
+            item['credits'] = 0
+        item['overview'] = (response.xpath('//div[@class="content"]/p/text()').extract_first().strip( '\n ' )).encode('utf-8')
+        item['terms']  = (re.search(r'.*?\: (.*)', response.xpath('//p[@class="catalog-terms"]/text()').extract_first()).group(1).strip()).encode('utf-8')
+        item['instructors'] = (re.search(r'.*?\: (.*)', response.xpath('//p[@class="catalog-instructors"]/text()').extract_first()).group(1).strip()).encode('utf-8')
+        item['preqs'] = map(lambda x: x.encode('utf-8'), response.xpath('//ul[@class="catalog-notes"]/li/p[contains(., \'Prerequisite\')]/a/text()').extract())
+        item['creqs'] = map(lambda x: x.encode('utf-8'), response.xpath('//ul[@class="catalog-notes"]/li/p[contains(., \'Corequisite\')]/a/text()').extract())
 
-        catalogNotes = response.xpath("//ul[@class='catalog-notes']/li/p")
-        # print catalogNotes.extract_first()
-        for note in catalogNotes:
-            if 'Prerequisite' in note.extract():
-                print "\n%s :\n" % course_name
-                self.parsePrereqs(str(note.extract()))
-                print '\n'
+        if item["subj"] not in self.courses_json: self.courses_json[item["subj"]] = []
+        # else : self.courses_json[item["subj"]].append(item)
+
+        majors = response.xpath("//div[@class='field-content']/a/text()").extract()
+
+        for major in majors:
+            if 'or' in major:
+                ms = major.split(' or ')
+                for m in ms:
+                    if m not in self.majors_json: self.majors_json[m] = []
+                    # else : self.majors_json[m].append(item["cid"])
+            else :
+                if major not in self.majors_json: self.majors_json[major] = []
+                # else : self.majors_json[major].append(item["cid"])
+
+        # catalogNotes = response.xpath("//ul[@class='catalog-notes']/li/p")
+        # # print catalogNotes.extract_first()
+        # for note in catalogNotes:
+        #     if 'Prerequisite' in note.extract():
+        #         print "\n%s :\n" % course_name
+        #         # self.parsePrereqs(str(note.extract()))
+        #         print '\n'
 
     def parsePrereqs(self, prereqs):
 
