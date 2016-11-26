@@ -27,7 +27,6 @@ class CoursesSpider(scrapy.Spider):
 
     def parse(self, response):
         courses = response.xpath("//h4[@class='field-content']/a/@href")
-        print '\n\n'
 
         # Visit each course on the current page
         for course in courses:
@@ -58,7 +57,7 @@ class CoursesSpider(scrapy.Spider):
 
         # return course to make json file through terminal
         
-        yield item
+        # yield item
 
         # Writing courses into local hashmap
         # 
@@ -68,9 +67,13 @@ class CoursesSpider(scrapy.Spider):
 
         # return major to make json file through terminal
 
-        # majors = response.xpath("//div[@class='field-content']/a/text()").extract()
-        # for major in majors:
-        #     yield {'major': major, 'course': item}
+        majors = response.xpath("//div[@class='field-content']/a/text()").extract()
+        for major in majors:
+            if ' or ' in major:
+                ms = major.split(' or ')
+                for m in ms:
+                    yield {'major': m.encode('utf-8'), 'course': item["cid"]}
+            else : yield {'major': major.encode('utf-8'), 'course': item["cid"]}
 
         # Writing majors into local hashmap
         # 
