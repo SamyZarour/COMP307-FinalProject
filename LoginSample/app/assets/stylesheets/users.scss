@@ -1,3 +1,59 @@
 // Place all the styles related to the users controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+.card{
+	margin: 0 auto;
+	width: 40%;
+	background-color: white;
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1), 0 6px 20px 0 rgba(0, 0, 0, 0.09);
+	text-align: center;
+}
+
+.Sign_Form > div{
+	padding: 20px;
+}
+
+.signup-header, .login-header{
+	color: white;
+}
+
+.signup-header{
+	background-color: #f1776c;
+}
+
+.login-header{
+	background-color: #00BCD4;
+}
+
+.new_user > p > input, .form-body > form > p > input{
+	padding: 5px;
+}
+
+.sign-up-btn, .login-btn{
+	margin-top: 10px;
+	background-color: #fff;
+	border-radius: 0;
+}
+
+.sign-up-btn:hover, .login-btn:hover{
+	color: white;
+}
+
+.sign-up-btn{
+	color: #f1776c;
+	border: 1px solid #f1776c;
+}
+
+.sign-up-btn:hover{
+	background-color: #f1776c;
+}
+
+.login-btn{
+	color: #00BCD4;
+	border: 1px solid #00BCD4;
+}
+
+.login-btn:hover{
+	background-color: #00BCD4;
+}

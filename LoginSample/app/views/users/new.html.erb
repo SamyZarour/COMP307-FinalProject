@@ -1,21 +1,25 @@
-<div class="Sign_Form">
-
-  <h1>Sign Up</h1>
-   <% if @user.errors.any? %>
-    <ul class="Signup_Errors">
-    <% for message_error in @user.errors.full_messages %>
-      <li>* <%= message_error %></li>
+<div class="card">
+  <div class="Sign_Form">
+    <div class="signup-header">
+      <h1>Sign Up</h1>
+    </div>
+    <div class="form-body">
+      <% if @user.errors.any? %>
+      <ul class="Signup_Errors">
+      <% for message_error in @user.errors.full_messages %>
+        <li>* <%= message_error %></li>
+      <% end %>
+      </ul>
+      <% else %>
     <% end %>
-    </ul>
-    <% else %>
-  <% end %>
 
-  <%= form_for(@user) do |f| %>
-    <p> Username:</br> <%= f.text_field :username%> </p>
-    <p> Email:</br> <%= f.text_field :email%> </p>
-    <p> Password:</br> <%= f.password_field :password%></p>
-    <p> Password Confirmation:</br> <%= f.password_field :password_confirmation%> </p>
-    <%= f.submit :Signup %>
-  <% end %>
-
-</div>
+    <%= form_for(@user) do |f| %>
+      <p> <%= f.text_field :username, placeholder: "Username"%> </p>
+      <p>  <%= f.text_field :email, placeholder: "Email" %> </p>
+      <p>  <%= f.password_field :password, placeholder: "Password" %></p>
+      <p>  <%= f.password_field :password_confirmation, placeholder: "Password Confirmation" %> </p>
+      <%= f.submit "Submit", :class => 'btn sign-up-btn' %>
+    <% end %>
+    </div>
+  </div>
+</div>  

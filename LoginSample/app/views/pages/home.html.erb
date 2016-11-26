@@ -1,0 +1,233 @@
+<div class="graph">
+	<select class="selectpicker" data-show-subtext="true" data-live-search="true">
+        <option data-subtext="Rep California">Tom Foolery</option>
+        <option data-subtext="Sen California">Bill Gordon</option>
+        <option data-subtext="Sen Massacusetts">Elizabeth Warren</option>
+        <option data-subtext="Rep Alabama">Mario Flores</option>
+        <option data-subtext="Rep Alaska">Don Young</option>
+        <option data-subtext="Rep California" disabled="disabled">Marvin Martinez</option>
+      </select>
+
+    <style id="css">
+      body {
+        font: 300 14px 'Helvetica Neue', Helvetica;
+      }
+
+      .node rect {
+        stroke: #333;
+        fill: #fff;
+      }
+
+      g.l-100 > rect {
+        fill: #FFBC67;
+      }
+      g.l-200 > rect {
+        fill: #DA727E;
+      }
+      g.l-300 > rect {
+        fill: #AC6C82;
+      }
+      g.l-400 > rect {
+        fill: #685C79;
+      }
+      g.l-500 > rect {
+        fill: #455C7B;
+      }
+      g.course-Done > rect {
+        fill: #53C670;
+      }
+
+      .edgePath path {
+        stroke: #333;
+        fill: #333;
+        stroke-width: 2px;
+      }
+
+      .edgePath.l-100 path {
+        stroke: #FFBC67;
+      }
+      .edgePath.l-200 path {
+        stroke: #DA727E;
+      }
+      .edgePath.l-300 path {
+        stroke: #AC6C82;
+      }
+      .edgePath.l-400 path {
+        stroke: #685C79;
+      }
+      .edgePath.l-500 path {
+        stroke: #455C7B;
+      }
+      .edgePath.course-Done path {
+        stroke: #53C670;
+      }
+
+      .l-100 > defs > marker > path {
+        fill: #FFBC67;
+      }
+      .l-200 > defs > marker > path {
+        fill: #DA727E;
+      }
+      .l-300 > defs > marker > path {
+        fill: #AC6C82;
+      }
+      .l-400 > defs > marker > path {
+        fill: #685C79;
+      }
+      .l-500 > defs > marker > path {
+        fill: #455C7B;
+      }
+      .course-Done > defs > marker > path {
+        fill: #53C670;
+      }
+
+      .node a {
+          color: white;
+          text-decoration: none;
+          font-weight: bold;
+      }
+
+      </style>
+
+    <svg width="100%" height="70vh" style="padding: 4vh 0"><g/></svg>
+  
+    <script id="js">
+
+// Minerva Bot info
+
+var courses = (function () {
+    var courses = null;
+    $.ajax({
+        'async': false,
+        'global': false,
+        'url': "<%= image_path("comp.json")%>",
+        'dataType': "json",
+        'success': function (data) {
+            courses = data;
+        }
+    });
+    return courses;
+})(); 
+
+// Create a new directed graph
+var g = new dagreD3.graphlib.Graph()
+  .setGraph({rankdir: 'LR', align: 'DL', nodesep: 25, ranksep: 100, ranker: "longest-path"})
+  .setDefaultEdgeLabel(function() { return {}; });
+
+// Here we"re setting nodeclass, which is used by our custom drawNodes function
+// below.
+
+var ids = $.map(courses, function(val) { return val.preqs; });
+
+var uids = _.uniq(ids);
+
+uids = uids.filter(function (root) {
+  return root.substring(0,4) == "COMP";
+});
+
+var roots =
+_(courses)
+  .keyBy('cid')
+  .at(uids) //filter all unique SUBJ courses that are prerequisites for other courses
+  .filter() //filter out all undefined
+  .value();
+
+//get all courses with prereqs
+var leaves = _.filter(courses, function(u) {
+    return (u.preqs.length !== 0);
+});
+
+leaves = _.difference(leaves,roots);
+
+
+// _(courses)
+//   .keyBy('cid')
+//   //.has('preqs') //filter all unique SUBJ courses that are prerequisites for other courses
+//   .filter() //filter out all undefined
+//   .value();
+
+for(var k in roots) {
+  if (roots[k] !== undefined) {
+   console.log(roots[k]);
+   //change the link to a url param return from scraper (i.e. add to scraper)
+   g.setNode(roots[k].cid,  { label: "<a href=http://www.mcgill.ca/study/2016-2017/courses/" + roots[k].subject + "-" + roots[k].code + " target=\"_blank\">" + roots[k].cid + "</a>", labelType: "html",         class: "l-" + roots[k].code.charAt(0) + "00" });
+ }
+}
+
+for(var l in leaves) {
+  if (leaves[l] !== undefined) {
+   //console.log(leaves[l]);
+  g.setNode(leaves[l].cid,  { label: leaves[l].cid, label: "<a href=http://www.mcgill.ca/study/2016-2017/courses/" + leaves[l].subject + "-" + leaves[l].code + " target=\"_blank\">" + leaves[l].cid + "</a>", labelType: "html", class: "l-" + leaves[l].code.charAt(0) + "00" });
+ }
+}
+
+// course = courses[3].cid;
+// g.setNode(course,  { label: courses[3].cid,       class: "type-TOP" });
+// g.setNode(1,  { label: "S",         class: "type-S" });
+// g.setNode(roots[3].cid,  { label: roots[3].cid,        class: "type-NP" });
+// g.setNode(3,  { label: "DT",        class: "type-DT" });
+// g.setNode(4,  { label: "This",      class: "type-TK" });
+
+g.nodes().forEach(function(v) {
+  var node = g.node(v);
+  // Round the corners of the nodes
+  node.rx = node.ry = 5;
+});
+
+var svg = d3.select("svg"),
+    inner = svg.select("g");
+
+// Set up edges, no special attributes.
+for(var k in roots) {
+  if (roots[k].preqs.length !== 0) {
+    //console.log(roots[k].preqs);
+    for (var j in roots[k].preqs) {
+      if ( roots[k].preqs[j].substring(0,4) == "COMP") {
+        console.log(roots[k].preqs[j]);
+       g.setEdge(roots[k].preqs[j],roots[k].cid, { class:"l-" + roots[k].code.charAt(0) + "00"})
+      }
+    }
+   //g.setNode(roots[k].cid,  { label: roots[k].cid,        class: "type-NP" });
+ }
+}
+
+for(var l in leaves) {
+  if (leaves[l].preqs.length !== 0) {
+    //console.log(roots[k].preqs);
+    for (var j in leaves[l].preqs) {
+      if (leaves[l].preqs[j].substring(0,4) == "COMP" && _.some(roots, ['cid', leaves[l].preqs[j]])) {
+        console.log(leaves[l].cid + " requires " + leaves[l].preqs[j]);
+        //need to safety check for depreciated courses here
+          g.setEdge(leaves[l].preqs[j],leaves[l].cid, {minlen: 3, weight: 15, class:"l-" + leaves[l].code.charAt(0) + "00"})
+      }
+    }
+   //g.setNode(roots[k].cid,  { label: roots[k].cid,        class: "type-NP" });
+ }
+}
+
+var svg = d3.select("svg"),
+    inner = svg.select("g");
+
+// Set up zoom support
+var zoom = d3.behavior.zoom().on("zoom", function() {
+      inner.attr("transform", "translate(" + d3.event.translate + ")" +
+                                  "scale(" + d3.event.scale + ")");
+    });
+svg.call(zoom);
+
+// Create the renderer
+var render = new dagreD3.render();
+
+// Run the renderer. This is what draws the final graph.
+render(inner, g);
+
+// Center the graph
+var initialScale = 1;
+zoom
+  .translate([100, 0])
+  .scale(initialScale)
+  .event(svg);
+
+// svg.attr('height', g.graph().height * initialScale + 40);
+</script>
+</div>

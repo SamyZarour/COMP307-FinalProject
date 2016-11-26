@@ -1,10 +1,21 @@
 <div class="Sign_Form">
-	<h1>Login</h1>
+	
 
-	<%= form_tag '/login' do %>
-		Email: <%= text_field_tag :email %>
-		Password: <%= password_field_tag :password %>
-		<%= submit_tag "Submit" %>
-	<% end %>
+	
 
 </div>
+
+<div class="card">
+  <div class="Sign_Form">
+    <div class="login-header">
+      <h1>Login</h1>
+    </div>
+    <div class="form-body">
+    	<%= form_tag '/login' do %>
+			<p><%= text_field_tag :email, nil, placeholder: "Email" %></p>
+			<p><%= password_field_tag :password, nil, placeholder: "Password" %></p>
+			<%= submit_tag "Submit", class: 'btn login-btn' %>
+		<% end %>
+    </div>
+  </div>
+</div>  
