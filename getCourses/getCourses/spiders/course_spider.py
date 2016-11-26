@@ -1,34 +1,31 @@
 import scrapy, re, os, json
 from scrapy.http import HtmlResponse
 
-class QuotesSpider(scrapy.Spider):
+class CoursesSpider(scrapy.Spider):
 
-    courses_json = {}
-    majors_json = {}
+    # courses_json = {}
+    # majors_json = {}
 
     name = "courses"
-    filename = "courses.html"
 
     def start_requests(self):
-        try:
-            os.remove(self.filename)
-        except OSError:
-            pass
 
         urls = [
             'http://www.mcgill.ca/study/2016-2017/courses/search/',
         ]
+
         for url in urls:
             yield scrapy.Request(url=url, callback=self.parse)
 
-        with open('courses.json', 'w') as outfile:
-            json.dump(self.courses_json, outfile)
+        # Write local dictionaries into json file
 
-        with open('majors.json', 'w') as outfile:
-            json.dump(self.majors_json, outfile)
+        # with open('courses.json', 'w') as outfile:
+        #     json.dump(self.courses_json, outfile)
+
+        # with open('majors.json', 'w') as outfile:
+        #     json.dump(self.majors_json, outfile)
 
     def parse(self, response):
-        filename = 'courses.html'
         courses = response.xpath("//h4[@class='field-content']/a/@href")
         print '\n\n'
 
@@ -42,9 +39,6 @@ class QuotesSpider(scrapy.Spider):
         if next_page is not None:
             next_page = response.urljoin(next_page)
             yield scrapy.Request(next_page, callback=self.parse)
-
-        print '\n\n'
-        self.log('Saved file %s' % filename)
 
     def extractCourse(self, response):
         item = {}
@@ -62,20 +56,37 @@ class QuotesSpider(scrapy.Spider):
         item['preqs'] = map(lambda x: x.encode('utf-8'), response.xpath('//ul[@class="catalog-notes"]/li/p[contains(., \'Prerequisite\')]/a/text()').extract())
         item['creqs'] = map(lambda x: x.encode('utf-8'), response.xpath('//ul[@class="catalog-notes"]/li/p[contains(., \'Corequisite\')]/a/text()').extract())
 
-        if item["subj"] not in self.courses_json: self.courses_json[item["subj"]] = []
+        # return course to make json file through terminal
+        
+        yield item
+
+        # Writing courses into local hashmap
+        # 
+        # if item["subj"] not in self.courses_json: self.courses_json[item["subj"]] = []
         # else : self.courses_json[item["subj"]].append(item)
 
-        majors = response.xpath("//div[@class='field-content']/a/text()").extract()
 
-        for major in majors:
-            if 'or' in major:
-                ms = major.split(' or ')
-                for m in ms:
-                    if m not in self.majors_json: self.majors_json[m] = []
-                    # else : self.majors_json[m].append(item["cid"])
-            else :
-                if major not in self.majors_json: self.majors_json[major] = []
-                # else : self.majors_json[major].append(item["cid"])
+        # return major to make json file through terminal
+
+        # majors = response.xpath("//div[@class='field-content']/a/text()").extract()
+        # for major in majors:
+        #     yield {'major': major, 'course': item}
+
+        # Writing majors into local hashmap
+        # 
+        # for major in majors:
+        #     if 'or' in major:
+        #         ms = major.split(' or ')
+        #         for m in ms:
+        #             if m not in self.majors_json: self.majors_json[m] = []
+        #             else : self.majors_json[m].append(item["cid"])
+        #     else :
+        #         if major not in self.majors_json: self.majors_json[major] = []
+        #         else : self.majors_json[major].append(item["cid"])
+
+
+
+        # Parsing Prereqs
 
         # catalogNotes = response.xpath("//ul[@class='catalog-notes']/li/p")
         # # print catalogNotes.extract_first()
