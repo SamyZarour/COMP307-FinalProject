@@ -1,4 +1,4 @@
-import scrapy, re, os, json
+import scrapy, re, os, json, sys
 from scrapy.http import HtmlResponse
 
 class CoursesSpider(scrapy.Spider):
