@@ -58,7 +58,7 @@ class CoursesSpider(scrapy.Spider):
 
         # return course to make json file through terminal
         
-        if sys.argv[3] == "courses.json" : yield item
+        # if sys.argv[3] == "courses.json" : yield item
 
         # Writing courses into local hashmap
         # 
@@ -67,14 +67,15 @@ class CoursesSpider(scrapy.Spider):
         
         # return major to make json file through terminal
         
-        elif sys.argv[3] == "majors.json" : 
-            majors = response.xpath("//div[@class='field-content']/a/text()").extract()
-            for major in majors:
-                if ' or ' in major:
-                    ms = major.split(' or ')
-                    for m in ms:
-                        yield {'major': m.encode('utf-8'), 'course': item["cid"]}
-                else : yield {'major': major.encode('utf-8'), 'course': item["cid"]}
+        # elif sys.argv[3] == "majors.json" : 
+        majors = response.xpath("//div[@class='field-content']/a/text()").extract()
+        for major in majors:
+            if ' or ' in major:
+                print "\n\nDOUBLE FLAG %s : %s\n\n" % (item["cid"] , major)
+                ms = major.split(' or ')
+                for m in ms:
+                    yield {'major': m.encode('utf-8'), 'course': item["cid"]}
+            else : yield {'major': major.encode('utf-8'), 'course': item["cid"]}
 
         # Writing majors into local hashmap
         # 
