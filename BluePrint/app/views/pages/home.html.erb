@@ -78,7 +78,6 @@
     <svg width="100%" height="70vh" style="padding: 4vh 0"><g/></svg>
   
     <script>
-	
 
 		//SETTINGS
 
@@ -215,6 +214,14 @@
 			.event(svg);
 
 		}
+
+		//SetUp Listener for selector
+		
+		$('select').on('change', function(event) {
+			program = this.value;
+			getCourses(program);
+
+		});
 
 	</script>
 </div>
