@@ -143,23 +143,16 @@
 		for(var k in roots) {
 		  if (roots[k] !== undefined) {
 		   //change the link to a url param return from scraper (i.e. add to scraper)
-		   g.setNode(roots[k].cid,  { label: "<a href=http://www.mcgill.ca/study/2016-2017/courses/" + roots[k].subject + "-" + roots[k].code + " target=\"_blank\">" + roots[k].cid + "</a>", labelType: "html",         class: "l-" + roots[k].code.charAt(0) + "00" });
+		   g.setNode(roots[k].cid,  { label: "<a href=http://www.mcgill.ca/study/2016-2017/courses/" + roots[k].subject + "-" + roots[k].code + " target=\"_blank\">" + roots[k].cid + "</a>", labelType: "html",         class: "l-" + roots[k].code.charAt(0) + "00", rx: 5, ry: 5, overview: roots[k].overview });
 		 }
 		}
 
 		for(var l in leaves) {
 		  if (leaves[l] !== undefined) {
-		  g.setNode(leaves[l].cid,  { label: leaves[l].cid, label: "<a href=http://www.mcgill.ca/study/2016-2017/courses/" + leaves[l].subject + "-" + leaves[l].code + " target=\"_blank\">" + leaves[l].cid + "</a>", labelType: "html", class: "l-" + leaves[l].code.charAt(0) + "00" });
+		  g.setNode(leaves[l].cid,  { label: leaves[l].cid, label: "<a href=http://www.mcgill.ca/study/2016-2017/courses/" + leaves[l].subject + "-" + leaves[l].code + " target=\"_blank\">" + leaves[l].cid + "</a>", labelType: "html", class: "l-" + leaves[l].code.charAt(0) + "00" , rx: 5, ry: 5, overview: leaves[l].overview  });
 		 }
 		}
 
-		
-
-		g.nodes().forEach(function(v) {
-		  var node = g.node(v);
-		  // Round the corners of the nodes
-		  node.rx = node.ry = 5;
-		});
 
 		var svg = d3.select("svg"),
 		    inner = svg.select("g");
@@ -188,6 +181,9 @@
 		 }
 		}
 
+		// Create the renderer
+		var render = new dagreD3.render();
+
 		var svg = d3.select("svg"),
 		    inner = svg.select("g");
 
@@ -200,19 +196,17 @@
 
 		// Simple function to style the tooltip for the given node.
 		var styleTooltip = function(name, description) {
-			console.log("entered");
 			return "<p class='name'>" + name + "</p><p class='description'>" + description + "</p>";
 		};
 
-		inner.selectAll("g.node")
-		  .attr("title", function(v) { return styleTooltip(v, g.node(v).cid) })
-		  .each(function(v) { $(this).tipsy({ gravity: "w", opacity: 1, html: true }); });
-
-		// Create the renderer
-		var render = new dagreD3.render();
+		console.log(g.node("COMP 303"));
 
 		// Run the renderer. This is what draws the final graph.
 		render(inner, g);
+
+		inner.selectAll("g.node")
+		  .attr("title", function(v) { return styleTooltip(v, g.node(v).overview) })
+		  .each(function(v) { $(this).tipsy({ gravity: "w", opacity: 1, html: true }); });
 
 		// Center the graph
 		var initialScale = 1;
