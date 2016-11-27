@@ -10,6 +10,7 @@ class CoursesSpider(scrapy.Spider):
 
     def start_requests(self):
 
+
         urls = [
             'http://www.mcgill.ca/study/2016-2017/courses/search/',
         ]
@@ -57,23 +58,23 @@ class CoursesSpider(scrapy.Spider):
 
         # return course to make json file through terminal
         
-        # yield item
+        if sys.argv[3] == "courses.json" : yield item
 
         # Writing courses into local hashmap
         # 
         # if item["subj"] not in self.courses_json: self.courses_json[item["subj"]] = []
         # else : self.courses_json[item["subj"]].append(item)
-
-
+        
         # return major to make json file through terminal
-
-        majors = response.xpath("//div[@class='field-content']/a/text()").extract()
-        for major in majors:
-            if ' or ' in major:
-                ms = major.split(' or ')
-                for m in ms:
-                    yield {'major': m.encode('utf-8'), 'course': item["cid"]}
-            else : yield {'major': major.encode('utf-8'), 'course': item["cid"]}
+        
+        elif sys.argv[3] == "majors.json" : 
+            majors = response.xpath("//div[@class='field-content']/a/text()").extract()
+            for major in majors:
+                if ' or ' in major:
+                    ms = major.split(' or ')
+                    for m in ms:
+                        yield {'major': m.encode('utf-8'), 'course': item["cid"]}
+                else : yield {'major': major.encode('utf-8'), 'course': item["cid"]}
 
         # Writing majors into local hashmap
         # 
