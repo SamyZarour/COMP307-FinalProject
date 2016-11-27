@@ -9,8 +9,10 @@ with open('majors_formated.json') as outfile:
 	majors_in = json.load(outfile)
 
 with open('majors.txt', 'w') as outfile:
+	i = 1
 	for m in majors_in:
-		outfile.write("%s\n" % m.encode('utf-8'))
+		outfile.write("%d\t%s\t2016-11-30 16:54:44\t2016-11-30 16:54:44\n" % (i,m.encode('utf-8')))
+		i+=1
 
 # with open('courses.json') as outfile:
 # 	courses_in = json.load(outfile)
