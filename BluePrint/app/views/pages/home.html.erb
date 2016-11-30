@@ -1,8 +1,12 @@
 <div class="graph">
 	
 	<select class="selectpicker" data-show-subtext="true" data-live-search="true">
-		<% Major.all.each do |major| %>
-	        <option> <%= major.name %></option>
+		<% Major.order(:name).all.each do |major| %>
+			<% if major.name.eql? "Bachelor of Science (B.Sc.) - Major Computer Science (63 credits)" %>
+		        <option selected="selected"> <%= major.name %></option>
+		    <% else %>
+		    	<option> <%= major.name %></option>
+		    <% end %>
 		<% end %>
 	</select>
 	
@@ -132,6 +136,10 @@
 					courses = progCourses;
 				}
 			});
+
+			<% if current_user.present? %>
+			  
+			<% end %>
 
 		}
 
