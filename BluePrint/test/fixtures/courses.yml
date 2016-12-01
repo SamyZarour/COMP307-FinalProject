@@ -2,10 +2,16 @@
 
 one:
   title: MyString
-  faculty: MyString
-  crn: 1
+  cid: MyString
+  terms: MyString
+  instructors: MyString
+  credits: MyString
+  overview: MyText
 
 two:
   title: MyString
-  faculty: MyString
-  crn: 1
+  cid: MyString
+  terms: MyString
+  instructors: MyString
+  credits: MyString
+  overview: MyText
