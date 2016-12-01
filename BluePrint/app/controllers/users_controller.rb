@@ -13,7 +13,7 @@ class UsersController < ApplicationController
       session[:user_id] = @user.id
       flash[:notice] = "You signed up successfully"
       flash[:color]= "valid"
-      redirect_to "/"
+      redirect_to "/logout"
     else
     	flash[:notice] = "Form is invalid"
   		flash[:color]= "invalid"

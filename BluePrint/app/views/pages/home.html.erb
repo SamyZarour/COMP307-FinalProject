@@ -194,7 +194,7 @@
 				if (courses[k] !== undefined) {
 					console.log(courses[k]);
 					//change the link to a url param return from scraper (i.e. add to scraper)
-					g.setNode(courses[k].cid,  { label: "<a href=http://www.mcgill.ca/study/2016-2017/courses/" + courses[k].subject + "-" + courses[k].code + " target=\"_blank\">" + courses[k].cid + "</a>", labelType: "html",class: "l-" + courses[k].code.charAt(0) + "00", rx: 5, ry: 5, overview: courses[k].overview });
+					g.setNode(courses[k].cid,  { label: "<a href=http://www.mcgill.ca/study/2016-2017/courses/" + courses[k].subject + "-" + courses[k].code + " target=\"_blank\">" + courses[k].cid + "</a>", labelType: "html",class: "l-" + courses[k].code.charAt(0) + "00", rx: 5, ry: 5, title: courses[k].title, cid: courses[k].cid, terms: courses[k].terms, instructors: courses[k].instructors, credits: courses[k].credits });
 				}
 			}
 
@@ -229,12 +229,12 @@
 			svg.call(zoom);
 
 			// Simple function to style the tooltip for the given node.
-			var styleTooltip = function(name, description) {
-				return "<p class='name'>" + name + "</p><p class='description'>" + description + "</p>";
+			var styleTooltip = function(title, cid, terms, instructors, credits) {
+				return '<div class="popup"><p class="title">  <span>Title</span> : ' + title + '</p><p class="cid">  <span>Code</span> : ' + cid + '</p><p class="terms">  <span>Terms</span> : ' + terms + '</p><p class="instructors">  <span>Instructors</span> : ' + instructors + '</p><p class="credits">  <span>Credits</span> : ' + credits + '</p><div>';
 			};
 
 			inner.selectAll("g.node")
-				.attr("title", function(v) { return styleTooltip(v, g.node(v).overview) })
+				.attr("title", function(v) { return styleTooltip(g.node(v).title, g.node(v).cid, g.node(v).terms, g.node(v).instructors, g.node(v).credits) })
 				.each(function(v) { $(this).tipsy({ gravity: "w", opacity: 1, html: true }); });
 
 		}
