@@ -1,3 +1,5 @@
+require 'json'
+
 class UsersController < ApplicationController
 
   attr_accessor :major
@@ -44,4 +46,5 @@ private
   def major_params
     params.require(:user).permit(:major)
   end
+
 end
