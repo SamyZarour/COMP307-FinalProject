@@ -40,6 +40,10 @@
 	padding: 0 10px;
 }
 
+.nav-item > a{
+	color: white;
+}
+
 .navbar a:visited{
 	color: white;
 }
