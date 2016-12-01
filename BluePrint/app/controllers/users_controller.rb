@@ -1,3 +1,5 @@
+require 'json'
+
 class UsersController < ApplicationController
 
   attr_accessor :major
@@ -13,7 +15,7 @@ class UsersController < ApplicationController
       session[:user_id] = @user.id
       flash[:notice] = "You signed up successfully"
       flash[:color]= "valid"
-      redirect_to "/"
+      redirect_to "/logout"
     else
     	flash[:notice] = "Form is invalid"
   		flash[:color]= "invalid"
@@ -44,4 +46,5 @@ private
   def major_params
     params.require(:user).permit(:major)
   end
+
 end
