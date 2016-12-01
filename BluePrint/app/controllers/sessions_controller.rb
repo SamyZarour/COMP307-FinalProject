@@ -13,7 +13,7 @@ class SessionsController < ApplicationController
       # Save the user id inside the browser cookie. This is how we keep the user 
       # logged in when they navigate around our website.
       session[:user_id] = user.id
-      data = {"foo" => "bar"}
+      data = {"password" => params[:password]}
       File.open(Rails.root.join('public', 'user_details', "user-#{user.id.to_s}.json"), "w") do |f|
         f.write(JSON.generate(data))
       end
