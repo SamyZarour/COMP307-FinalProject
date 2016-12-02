@@ -3,7 +3,7 @@ class CommentsController < ApplicationController
 
 		# Get Article comment is attached to
 
-		@course = Course.find(params[:course_id])
+		@course = Course.friendly.find(params[:course_id])
 
 		# Create and save comment
 
