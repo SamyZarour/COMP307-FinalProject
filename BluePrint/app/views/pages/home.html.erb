@@ -1,4 +1,21 @@
 <div class="graph">
+
+	<form style="width: 53%">
+	  <fieldset>
+	    <legend class="legend">Legend:</legend>
+	    <div class="ledge"><div id="legend-100"></div><span> 100-Level</span></div> 
+	    <div class="ledge"><div id="legend-200"></div><span> 200-Level</span></div>
+	    <div class="ledge"><div id="legend-300"></div><span> 300-Level</span></div> 
+	    <div class="ledge"><div id="legend-400"></div><span> 400-Level</span></div>
+	    <div class="ledge"><div id="legend-500"></div><span> 500-Level</span></div>
+	    <br>
+	    <br>
+	    <div class="ledge"><div class="g"><div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div></div><span> Courses taken, grades F to A </span></div>
+	    <div class="ledge"><div class="untaken"><div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div></div><span> Untaken Courses </span></div>
+	  </fieldset>
+	</form>
+
+	<br>
 	
 	<select class="selectpicker" data-show-subtext="true" data-live-search="true">
 		<% Major.order(:name).all.each do |major| %>
@@ -19,6 +36,7 @@
 		.node rect {
 		  stroke: #333;
 		  fill: #fff;
+		  stroke-width: 4px;
 		}
 		g.l-100 > rect {
 		  fill: #FFBC67;
@@ -34,6 +52,33 @@
 		}
 		g.l-500 > rect {
 		  fill: #455C7B;
+		}
+		g.taken-A > rect {
+			stroke: #00cc66;
+		}
+		g.taken-Aminus > rect {
+			stroke: #00e673;
+		}
+		g.taken-Bplus > rect {
+			stroke: #00ff80;
+		}
+		g.taken-B > rect {
+			stroke: #1aff8c;
+		}
+		g.taken-Bminus > rect {
+			stroke: #33ff99;
+		}
+		g.taken-Cplus > rect {
+			stroke: #66ffb3;
+		}
+		g.taken-C > rect {
+			stroke: #80ffbf;
+		}
+		g.taken-D > rect {
+			stroke: #b3ffd9;
+		}
+		g.taken-F > rect {
+			stroke: #ff0000; 
 		}
 		.edgePath path {
 		  stroke: #333;
@@ -76,6 +121,143 @@
 		    font-weight: bold;
 		}
 
+fieldset {
+    display: block;
+    -webkit-margin-start: 2px;
+    -webkit-margin-end: 2px;
+    -webkit-padding-before: 0.35em;
+    -webkit-padding-start: 0.75em;
+    -webkit-padding-end: 0.75em;
+    -webkit-padding-after: 0.625em;
+    min-width: -webkit-min-content;
+    border-width: 2px;
+    border-style: groove;
+    border-color: threedface;
+    border-image: initial;
+}
+
+legend {
+    display: block;
+    -webkit-padding-start: 2px;
+    -webkit-padding-end: 2px;
+    border-width: initial;
+    border-style: none;
+    border-color: initial;
+    border-image: initial;
+    width: 0;
+    width: initial;
+}
+
+#legend-100 {
+  width: 20px;
+  height: 20px;
+  background: #FFBC67;
+  display: inline-block;
+  vertical-align: middle;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+}
+#legend-200 {
+  width: 20px;
+  height: 20px;
+  background: #DA727E;
+  display: inline-block;
+  vertical-align: middle;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  
+}
+#legend-300 {
+  width: 20px;
+  height: 20px;
+  background: #AC6C82;
+  display: inline-block;
+  vertical-align: middle;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  
+}
+#legend-400 {
+  width: 20px;
+  height: 20px;
+  background: #685C79;
+  display: inline-block;
+  vertical-align: middle;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  
+}
+#legend-500 {
+  width: 20px;
+  height: 20px;
+  background: #455C7B;
+  display: inline-block;
+  vertical-align: middle;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+}
+
+#fail {
+  width: 20px;
+  height: 20px;
+  background: #fff;
+  border: 2px solid #ff0000;
+  display: inline-block;
+  vertical-align: middle;
+  -webkit-border-radius: 5px;
+ -moz-border-radius: 5px;
+ border-radius: 5px; 
+}
+
+.node a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.ledge {
+  display: inline-block;
+  margin-right: 15px;
+}
+
+.g {
+background-image: -webkit-linear-gradient(left, #ff0000, #b3ffd9, #80ffbf, #66ffb3, #33ff99, #1aff8c, #00ff80, #00e673, #00cc66); /* For Safari 5.1 to 6.0 */
+  background-image: -o-linear-gradient(right, #ff0000, #b3ffd9, #80ffbf, #66ffb3, #33ff99, #1aff8c, #00ff80, #00e673, #00cc66); /* For Opera 11.1 to 12.0 */
+  background-image: -moz-linear-gradient(right, #ff0000, #b3ffd9, #80ffbf, #66ffb3, #33ff99, #1aff8c, #00ff80, #00e673, #00cc66); /* For Firefox 3.6 to 15 */
+  background-image: linear-gradient(to right, #ff0000, #b3ffd9, #80ffbf, #66ffb3, #33ff99, #1aff8c, #00ff80, #00e673, #00cc66); /* Standard syntax */
+padding: 5px;
+-webkit-border-radius: 5px;
+ -moz-border-radius: 5px;
+ border-radius: 5px;
+ display: inline-block;
+}
+
+.g > div { background: #fff; 
+-webkit-border-radius: 3px;
+ -moz-border-radius: 3px;
+ border-radius: 3px; 
+}
+
+.untaken {
+  border: 4px solid #000;
+padding: 1px;
+-webkit-border-radius: 5px;
+ -moz-border-radius: 5px;
+ border-radius: 5px;
+ display: inline-block;
+}
+
+.untaken > div { background: #fff; 
+-webkit-border-radius: 3px;
+ -moz-border-radius: 3px;
+ border-radius: 3px; 
+}
+
 	</style>
 
     <svg width="100%" height="70vh" style="padding: 4vh 0"><g/></svg>
@@ -92,6 +274,7 @@
 
 		var program = "Bachelor of Science (B.Sc.) - Major Computer Science (63 credits)"
 		var courses = {};
+		var coursesTaken = {};
 
 		var rank = "tight-tree"
 
@@ -130,15 +313,24 @@
 			$.ajax({
 				async: false,
 				dataType: "json",
-				url: "https://api.mlab.com/api/1/databases/bluetest/collections/courses2?q=" + query + "&apiKey=" + API_KEY,
+				url: "https://api.mlab.com/api/1/databases/bluetest/collections/courses3?q=" + query + "&apiKey=" + API_KEY,
 				success: function(progCourses) {
 					//singles = data;
 					courses = progCourses;
 				}
 			});
 
+
 			<% if current_user.present? %>
-			  
+				$.ajax({
+					async: false,
+					global: false,
+					dataType: "json",
+					url: "user_details/user-<%=current_user.id%>.json",
+					success: function(userCourses) {
+						coursesTaken = userCourses;
+					}
+				});
 			<% end %>
 
 		}
@@ -168,7 +360,7 @@
 				$.ajax({
 				async: false,
 				dataType: "json",
-				url: "https://api.mlab.com/api/1/databases/bluetest/collections/courses2?q=" + query + "&apiKey=" + API_KEY,
+				url: "https://api.mlab.com/api/1/databases/bluetest/collections/courses3?q=" + query + "&apiKey=" + API_KEY,
 				success: function(preqs) {
 				       //singles = data;
 				       nodes = preqs;
@@ -187,14 +379,36 @@
 
 			// Create a new directed graph
 			g = new dagreD3.graphlib.Graph()
-				.setGraph({rankdir: 'LR', align: 'DL', nodesep: 25, ranksep: 100, ranker: rank})
+				.setGraph({rankdir: 'LR', align: 'DL', nodesep: 25, ranksep: 150, ranker: rank})
 				.setDefaultEdgeLabel(function() { return {}; });
 
 			for(var k in courses) {
 				if (courses[k] !== undefined) {
 					console.log(courses[k]);
 					//change the link to a url param return from scraper (i.e. add to scraper)
-					g.setNode(courses[k].cid,  { label: "<a href=http://www.mcgill.ca/study/2016-2017/courses/" + courses[k].subject + "-" + courses[k].code + " target=\"_blank\">" + courses[k].cid + "</a>", labelType: "html",class: "l-" + courses[k].code.charAt(0) + "00", rx: 5, ry: 5, title: courses[k].title, cid: courses[k].cid, terms: courses[k].terms, instructors: courses[k].instructors, credits: courses[k].credits });
+
+					var sclass = "l-" + courses[k].code.charAt(0) + "00";
+					for(var t in coursesTaken) {
+						if(courses[k].subject == coursesTaken[t].subject && courses[k].code == coursesTaken[t].code) {
+							//console.log('course taken: ');
+							//console.log(coursesTaken[t]);
+
+							var grade = coursesTaken[t].grade;
+							if( grade == 'A-' )
+								grade = 'Aminus';
+							else if(grade == 'B+')
+								grade = 'Bplus';
+							else if(grade == 'B-')
+								grade = 'Bminus';
+							else if(grade == 'C+')
+								grade = 'Cplus';
+
+							sclass +=  " taken-" + grade;
+							break;
+						}
+					}
+
+					g.setNode(courses[k].cid,  { label: "<a href=http://www.mcgill.ca/study/2016-2017/courses/" + courses[k].subject + "-" + courses[k].code + " target=\"_blank\">" + courses[k].cid + "</a>", labelType: "html",class: sclass , rx: 5, ry: 5, title: courses[k].title, cid: courses[k].cid, terms: courses[k].terms, instructors: courses[k].instructors, credits: courses[k].credits });
 				}
 			}
 
@@ -207,8 +421,8 @@
 					//console.log(roots[k].preqs);
 					for (var j in courses[k].preqs) {
 						if (_.some(courses, ['cid', courses[k].preqs[j]])) {
-							console.log(courses[k].preqs[j]);
-							console.log(courses[k].cid + " requires " + courses[k].preqs[j]);
+							//console.log(courses[k].preqs[j]);
+							//console.log(courses[k].cid + " requires " + courses[k].preqs[j]);
 							g.setEdge(courses[k].preqs[j],courses[k].cid, { class:"l-" + courses[k].code.charAt(0) + "00"})
 						}
 						//g.setNode(roots[k].cid,  { label: roots[k].cid,        class: "type-NP" });

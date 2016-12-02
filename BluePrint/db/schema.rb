@@ -34,13 +34,13 @@ ActiveRecord::Schema.define(version: 20161201233047) do
     t.index ["slug"], name: "index_courses_on_slug", unique: true, using: :btree
   end
 
-  create_table "majors", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+  create_table "majors", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+  create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "username"
     t.string   "email"
     t.string   "password_digest"
