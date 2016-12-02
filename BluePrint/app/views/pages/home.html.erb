@@ -10,7 +10,7 @@
 		<% end %>
 	</select>
 
-	<form>
+	<form style="width: 50%">
 	  <fieldset>
 	    <legend class="legend">Legend:</legend>
 	    <div class="ledge"><div id="legend-100"></div><span> 100-Level</span></div> 
@@ -119,7 +119,33 @@
 		    font-weight: bold;
 		}
 
-		#legend-100 {
+fieldset {
+    display: block;
+    -webkit-margin-start: 2px;
+    -webkit-margin-end: 2px;
+    -webkit-padding-before: 0.35em;
+    -webkit-padding-start: 0.75em;
+    -webkit-padding-end: 0.75em;
+    -webkit-padding-after: 0.625em;
+    min-width: -webkit-min-content;
+    border-width: 2px;
+    border-style: groove;
+    border-color: threedface;
+    border-image: initial;
+}
+
+legend {
+    display: block;
+    -webkit-padding-start: 2px;
+    -webkit-padding-end: 2px;
+    border-width: initial;
+    border-style: none;
+    border-color: initial;
+    border-image: initial;
+    width: 0;
+}
+
+#legend-100 {
   width: 20px;
   height: 20px;
   background: #FFBC67;
