@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161201180652) do
+ActiveRecord::Schema.define(version: 20161201233047) do
 
   create_table "comments", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "commenter"
@@ -30,6 +30,8 @@ ActiveRecord::Schema.define(version: 20161201180652) do
     t.text     "overview",    limit: 65535
     t.datetime "created_at",                null: false
     t.datetime "updated_at",                null: false
+    t.string   "slug"
+    t.index ["slug"], name: "index_courses_on_slug", unique: true, using: :btree
   end
 
   create_table "majors", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|

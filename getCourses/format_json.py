@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 import os, json
 
 courses_in = {}
@@ -5,13 +8,23 @@ courses_out = {}
 majors_in = {}
 majors_out = {}
 
-with open('majors_formated.json') as outfile:
-	majors_in = json.load(outfile)
+with open('courses.json') as outfile:
+	courses_in = json.load(outfile)
 
-with open('majors.txt', 'w') as outfile:
+with open('courses.txt', 'w') as outfile:
 	i = 1
-	for m in majors_in:
-		outfile.write("%d\t%s\t2016-11-30 16:54:44\t2016-11-30 16:54:44\n" % (i,m.encode('utf-8')))
+	for c in courses_in:
+		outfile.write("%d\t%s\t%s\t%s\t%s\t%s\t%s\n" % 
+			(
+				i,
+				c["title"].encode('ascii', 'ignore'),
+				c["cid"].encode('ascii', 'ignore'),
+				c["terms"].encode('ascii', 'ignore'),
+				c["instructors"].encode('ascii', 'ignore'),
+				c["credits"],
+				c["overview"].encode('ascii', 'ignore')
+			)
+		)
 		i+=1
 
 # with open('courses.json') as outfile:

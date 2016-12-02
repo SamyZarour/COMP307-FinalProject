@@ -1,6 +1,9 @@
 class Course < ApplicationRecord
 	has_many :comments, dependent: :destroy
 
+	extend FriendlyId
+	friendly_id :cid, use: :slugged
+
 	validates :title, presence: true, length: { maximum: 50 }
 	validates :cid, presence: true
 	validates :terms, presence: true
