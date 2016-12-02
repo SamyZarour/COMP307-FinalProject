@@ -1,14 +1,4 @@
 <div class="graph">
-	
-	<select class="selectpicker" data-show-subtext="true" data-live-search="true">
-		<% Major.order(:name).all.each do |major| %>
-			<% if major.name.eql? "Bachelor of Science (B.Sc.) - Major Computer Science (63 credits)" %>
-		        <option selected="selected"> <%= major.name %></option>
-		    <% else %>
-		    	<option> <%= major.name %></option>
-		    <% end %>
-		<% end %>
-	</select>
 
 	<form style="width: 50%">
 	  <fieldset>
@@ -24,6 +14,16 @@
 	    <div class="ledge"><div class="untaken"><div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div></div><span> Untaken Courses </span></div>
 	  </fieldset>
 	</form>
+	
+	<select class="selectpicker" data-show-subtext="true" data-live-search="true">
+		<% Major.order(:name).all.each do |major| %>
+			<% if major.name.eql? "Bachelor of Science (B.Sc.) - Major Computer Science (63 credits)" %>
+		        <option selected="selected"> <%= major.name %></option>
+		    <% else %>
+		    	<option> <%= major.name %></option>
+		    <% end %>
+		<% end %>
+	</select>
 	
 
     <style id="css">
