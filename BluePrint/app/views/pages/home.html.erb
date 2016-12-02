@@ -17,7 +17,7 @@
 
 	<br>
 	
-	<select class="selectpicker" data-show-subtext="true" data-live-search="true">
+	<select class="selectpicker majors" data-live-search="true">
 		<% Major.order(:name).all.each do |major| %>
 			<% if major.name.eql? "Bachelor of Science (B.Sc.) - Major Computer Science (63 credits)" %>
 		        <option selected="selected"> <%= major.name %></option>
@@ -25,6 +25,12 @@
 		    	<option> <%= major.name %></option>
 		    <% end %>
 		<% end %>
+	</select>
+
+	<select class="selectpicker ranks">
+		<option selected="selected">tight-tree</option>
+		<option>longest-path</option>
+		<option>network-simplex</option>
 	</select>
 	
 
@@ -408,7 +414,7 @@ padding: 1px;
 						}
 					}
 
-					g.setNode(courses[k].cid,  { label: "<a href=http://www.mcgill.ca/study/2016-2017/courses/" + courses[k].subject + "-" + courses[k].code + " target=\"_blank\">" + courses[k].cid + "</a>", labelType: "html",class: sclass , rx: 5, ry: 5, title: courses[k].title, cid: courses[k].cid, terms: courses[k].terms, instructors: courses[k].instructors, credits: courses[k].credits });
+					g.setNode(courses[k].cid,  { label: "<a href=/courses/" + courses[k].subject + "-" + courses[k].code + " target=\"_blank\">" + courses[k].cid + "</a>", labelType: "html",class: sclass , rx: 5, ry: 5, title: courses[k].title, cid: courses[k].cid, terms: courses[k].terms, instructors: courses[k].instructors, credits: courses[k].credits });
 				}
 			}
 
@@ -476,8 +482,13 @@ padding: 1px;
 
 		}
 
-		$('select').on('change', function(event) {
+		$('.majors').on('change', function(event) {
 			program = this.value;
+			newProgram();
+		});
+
+		$('.ranks').on('change', function(event) {
+			rank = this.value;
 			newProgram();
 		});
 
