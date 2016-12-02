@@ -31,9 +31,9 @@ class SessionsController < ApplicationController
 			# Send the request
 			res = http.request(request)	
 
-      File.open(Rails.root.join('public', 'user_details', "user-#{user.id.to_s}.json"), "w") do |f|
-        f.write(res.body)
-      end
+			File.open(Rails.root.join('public', 'user_details', "user-#{user.id.to_s}.json"), "w") do |f|
+		 f.write(res.body)
+    end
       flash[:notice] = "You signed in successfully!"
       flash[:color]= "valid"
       redirect_to '/'
