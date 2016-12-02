@@ -6,8 +6,11 @@
   <thead>
     <tr>
       <th>Title</th>
-      <th>Faculty</th>
-      <th>Crn</th>
+      <th>Cid</th>
+      <th>Terms</th>
+      <th>Instructors</th>
+      <th>Credits</th>
+      <th>Overview</th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -16,8 +19,11 @@
     <% @courses.each do |course| %>
       <tr>
         <td><%= course.title %></td>
-        <td><%= course.faculty %></td>
-        <td><%= course.crn %></td>
+        <td><%= course.cid %></td>
+        <td><%= course.terms %></td>
+        <td><%= course.instructors %></td>
+        <td><%= course.credits %></td>
+        <td><%= course.overview %></td>
         <td><%= link_to 'Show', course %></td>
         <td><%= link_to 'Edit', edit_course_path(course) %></td>
         <td><%= link_to 'Destroy', course, method: :delete, data: { confirm: 'Are you sure?' } %></td>
