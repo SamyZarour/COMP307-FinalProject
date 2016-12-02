@@ -1,3 +1,36 @@
 // Place all the styles related to the courses controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+.course{
+	padding: 15px;
+	margin: 0;
+	background-color: white;
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1), 0 6px 20px 0 rgba(0, 0, 0, 0.09);
+}
+
+.course p{
+	font-size: 15px;
+}
+
+.course .course-title{
+	font-size: 25px;
+	margin-bottom: 80px;
+}
+
+.comment-label{
+	margin: 60px 0 30px 0 ;
+}
+
+.comment{
+	margin-bottom: 30px;
+}
+
+.new_comment{
+	margin: 30px 0;
+}
+
+.new_comment > .input-group > .input-group-btn > .btn-default , .new_comment .form-control{
+	height: 100px;
+	padding: 15px;
+}

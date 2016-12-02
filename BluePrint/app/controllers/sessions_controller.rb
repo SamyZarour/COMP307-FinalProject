@@ -33,11 +33,14 @@ class SessionsController < ApplicationController
 
       File.open(Rails.root.join('public', 'user_details', "user-#{user.id.to_s}.json"), "w") do |f|
         f.write(res.body)
-
       end
+      flash[:notice] = "You signed in successfully!"
+      flash[:color]= "valid"
       redirect_to '/'
     else
     # If user's login doesn't work, send them back to the login form.
+      flash[:notice] = "Sign in has failed!"
+      flash[:color]= "invalid"
       redirect_to '/login'
     end
   end

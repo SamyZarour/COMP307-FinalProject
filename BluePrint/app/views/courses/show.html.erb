@@ -1,58 +1,62 @@
 <p id="notice"><%= notice %></p>
 
-<p>
-  <strong>Title:</strong>
-  <%= @course.title %>
-</p>
+<div class="course">
+    <p class="course-title">
+      <%= @course.cid.upcase %> - <%= @course.title %>
+    </p>
 
-<p>
-  <strong>Cid:</strong>
-  <%= @course.cid %>
-</p>
+    <p>
+      <strong>Terms: </strong>
+      <%= @course.terms %>
+    </p>
 
-<p>
-  <strong>Terms:</strong>
-  <%= @course.terms %>
-</p>
+    <p>
+      <strong>Instructors: </strong>
+      <%= @course.instructors %>
+    </p>
 
-<p>
-  <strong>Instructors:</strong>
-  <%= @course.instructors %>
-</p>
+    <p>
+      <strong>Credits: </strong>
+      <%= @course.credits %>
+    </p>
 
-<p>
-  <strong>Credits:</strong>
-  <%= @course.credits %>
-</p>
+    <p>
+      <strong>Overview: </strong>
+      <%= @course.overview %>
+    </p>
+</div>
 
-<p>
-  <strong>Overview:</strong>
-  <%= @course.overview %>
-</p>
+<h2 class="comment-label">Comments</h2>
 
-<h2>Comments</h2>
-<% @course.comments.each do |comment| %>
-  <p>
-    <strong>Commenter:</strong>
-    <%= comment.commenter %>
-  </p>
- 
-  <p>
-    <strong>Comment:</strong>
-    <%= comment.body %>
-  </p>
+<div class="course comment">
+  <% @course.comments.each do |comment| %>
+    
+    <p>
+      <%= comment.body %>
+    </p>
+
+    <p>
+      <strong> - <%= comment.commenter %></strong>
+    </p>
+
+  <% end %>
+  <% if @course.comments.empty?%>
+    No comments to show
+  <% end %>
+</div>
+
+<% if current_user.present? %>
+  <%= form_for([@course, @course.comments.build]) do |f| %>
+    <div class="input-group input-group-sm">
+      <%= f.text_area :body, :class => 'form-control', :placeholder => 'Comment here' %>
+      <span class='input-group-btn'>
+        <%= f.submit :class => 'btn btn-default' %>
+      </span>
+    </div>
+  <% end %>
 <% end %>
  
-<h2>Add a comment:</h2>
-<%= form_for([@course, @course.comments.build]) do |f| %>
-  <p>
-    <%= f.label :body %><br>
-    <%= f.text_area :body %>
-  </p>
-  <p>
-    <%= f.submit %>
-  </p>
-<% end %>
 
-<%= link_to 'Edit', edit_course_path(@course) %> |
-<%= link_to 'Back', courses_path %>
+    
+    
+
